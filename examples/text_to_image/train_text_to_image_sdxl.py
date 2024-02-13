@@ -426,8 +426,16 @@ def parse_args(input_args=None):
         type=str,
         default=None,
         help="The name of the repository to keep in sync with the local `output_dir`.",
-    ),
- )
+    )
+    parser.add_argument(
+        "--logging_dir",
+        type=str,
+        default="logs",
+        help=(
+            "[TensorBoard](https://www.tensorflow.org/tensorboard) log directory. Will default to"
+            " *output_dir/runs/**CURRENT_DATETIME_HOSTNAME***."
+        ),
+    )
     parser.add_argument(
         "--report_to",
         type=str,
@@ -576,15 +584,15 @@ def main(args):
             " Please use `huggingface-cli login` to authenticate with the Hub."
         )
 
-    project_dir = Path(args.output_dir)
+    logging_dir = Path(args.output_dir, args.logging_dir)
 
-    accelerator_project_config = ProjectConfiguration(project_dir=args.output_dir, project_dir=project_dir)
+    accelerator_project_config = ProjectConfiguration(project_dir=args.output_dir, project_dir=logging_dir)
 
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         mixed_precision=args.mixed_precision,
         log_with=args.report_to,
-        project_dir=project_dir,
+        project_config=accelerator_project_config,
     )
 
     if args.report_to == "wandb":
