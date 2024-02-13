@@ -651,10 +651,10 @@ def main(args):
     noise_scheduler = DDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
     # Check for terminal SNR in combination with SNR Gamma
     text_encoder_one = text_encoder_cls_one.from_pretrained(
-        args.pretrained_model_name_or_path, subfolder="text_encoder", revision=args.revision, variant=args.variant
+        args.pretrained_model_name_or_path, subfolder="text_encoder", revision=args.revision
     )
     text_encoder_two = text_encoder_cls_two.from_pretrained(
-        args.pretrained_model_name_or_path, subfolder="text_encoder_2", revision=args.revision, variant=args.variant
+        args.pretrained_model_name_or_path, subfolder="text_encoder_2", revision=args.revision
     )
     vae_path = (
         args.pretrained_model_name_or_path
@@ -665,10 +665,9 @@ def main(args):
         vae_path,
         subfolder="vae" if args.pretrained_vae_model_name_or_path is None else None,
         revision=args.revision,
-        variant=args.variant,
     )
     unet = UNet2DConditionModel.from_pretrained(
-        args.pretrained_model_name_or_path, subfolder="unet", revision=args.revision, variant=args.variant
+        args.pretrained_model_name_or_path, subfolder="unet", revision=args.revision
     )
 
     # Freeze vae and text encoders.
@@ -695,7 +694,7 @@ def main(args):
     # Create EMA for the unet.
     if args.use_ema:
         ema_unet = UNet2DConditionModel.from_pretrained(
-            args.pretrained_model_name_or_path, subfolder="unet", revision=args.revision, variant=args.variant
+            args.pretrained_model_name_or_path, subfolder="unet", revision=args.revision
         )
         ema_unet = EMAModel(ema_unet.parameters(), model_cls=UNet2DConditionModel, model_config=ema_unet.config)
 
@@ -1173,14 +1172,12 @@ def main(args):
                     vae_path,
                     subfolder="vae" if args.pretrained_vae_model_name_or_path is None else None,
                     revision=args.revision,
-                    variant=args.variant,
                 )
                 pipeline = StableDiffusionXLPipeline.from_pretrained(
                     args.pretrained_model_name_or_path,
                     vae=vae,
                     unet=accelerator.unwrap_model(unet),
                     revision=args.revision,
-                    variant=args.variant,
                     torch_dtype=weight_dtype,
                 )
                 if args.prediction_type is not None:
@@ -1228,7 +1225,6 @@ def main(args):
             vae_path,
             subfolder="vae" if args.pretrained_vae_model_name_or_path is None else None,
             revision=args.revision,
-            variant=args.variant,
             torch_dtype=weight_dtype,
         )
         pipeline = StableDiffusionXLPipeline.from_pretrained(
@@ -1236,7 +1232,6 @@ def main(args):
             unet=unet,
             vae=vae,
             revision=args.revision,
-            variant=args.variant,
             torch_dtype=weight_dtype,
         )
         if args.prediction_type is not None:
