@@ -149,12 +149,7 @@ def parse_args(input_args=None):
         required=False,
         help="Revision of pretrained model identifier from huggingface.co/models.",
     )
-    parser.add_argument(
-        "--variant",
-        type=str,
-        default=None,
-        help="Variant of the model files of the pretrained model identifier from huggingface.co/models, 'e.g.' fp16",
-    )
+
     parser.add_argument(
         "--dataset_name",
         type=str,
