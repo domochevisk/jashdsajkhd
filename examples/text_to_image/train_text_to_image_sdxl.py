@@ -576,9 +576,9 @@ def main(args):
             " Please use `huggingface-cli login` to authenticate with the Hub."
         )
 
-    project_dir = Path(args.output_dir, args.logging_dir)
+    project_dir = Path(args.output_dir)
 
-    accelerator_project_config = ProjectConfiguration(project_dir=args.output_dir, project_dir=logging_dir)
+    accelerator_project_config = ProjectConfiguration(project_dir=args.output_dir, project_dir=project_dir)
 
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
