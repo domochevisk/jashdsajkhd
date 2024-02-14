@@ -136,7 +136,7 @@ More information on all the CLI arguments and the environment are available on y
     model_card.save(os.path.join(repo_folder, "README.md"))
 
 
-def log_validation(vae, text_encoder, tokenizer, **kwargs, unet, args, accelerator, weight_dtype, epoch):
+def log_validation(vae, text_encoder, tokenizer, unet, args, accelerator, weight_dtype, epoch, **kwargs):
     args = kwargs.get('args', None)
     accelerator = kwargs.get('accelerator', None)
     weight_dtype = kwargs.get('weight_dtype', None)
