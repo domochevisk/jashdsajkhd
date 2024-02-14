@@ -941,18 +941,9 @@ def main():
                 else:
                     raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
                 def compute_time_ids(original_size, crops_coords_top_left):
-                    # Adapted from pipeline.StableDiffusionXLPipeline._get_add_time_ids
-                    target_size = (args.resolution, args.resolution)
-                    add_time_ids = list(original_size + crops_coords_top_left + target_size)
-                    add_time_ids = torch.tensor([add_time_ids])
-                    add_time_ids = add_time_ids.to(accelerator.device, dtype=weight_dtype)
-                    return add_time_ids
 
-                add_time_ids = torch.cat(
-                    [compute_time_ids(s, c) for s, c in zip(batch["original_sizes"], batch["crop_top_lefts"])]
-                )
                 # Predict the noise residual and compute loss
-                unet_added_conditions = {"time_ids": add_time_ids, "text_embeds": pooled_prompt_embeds}
+                unet_added_conditions = {"text_embeds": pooled_prompt_embeds}
 
                 model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, added_cond_kwargs=unet_added_conditions, return_dict=False)[0]
 
