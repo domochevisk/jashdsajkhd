@@ -940,7 +940,7 @@ def main():
                     target = noise_scheduler.get_velocity(latents, noise, timesteps)
                 else:
                     raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
-                def compute_time_ids(original_size, crops_coords_top_left):
+                
 
                 # Predict the noise residual and compute loss
                 unet_added_conditions = {"text_embeds": pooled_prompt_embeds}
